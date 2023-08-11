@@ -1,5 +1,6 @@
 <?php namespace Visiosoft\ServerModule\Http\Controller\Admin;
 
+use Visiosoft\ServerModule\Server\Contract\ServerRepositoryInterface;
 use Visiosoft\ServerModule\Server\Form\ServerFormBuilder;
 use Visiosoft\ServerModule\Server\Table\ServerTableBuilder;
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
@@ -39,5 +40,12 @@ class ServerController extends AdminController
     public function edit(ServerFormBuilder $form, $id)
     {
         return $form->render($id);
+    }
+
+    public function installation(ServerRepositoryInterface $repository, $server_id)
+    {
+        $server = $repository->newQuery()->where('server_id', $server_id)->where('status', 0)->firstOrFail();
+
+        return $this->view->make('module::installation',compact('server'));
     }
 }

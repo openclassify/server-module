@@ -1,0 +1,22 @@
+{% extends layout('default') %}
+
+{% block content %}
+   <div class="container-fluid">
+         <div class="card">
+            <div class="card-block card-body">
+               <h3>To install your server:</h3>
+
+               <p>Use a clean Ubuntu Server 20.04 LTS fresh installation VPS</p>
+               <p>Login into your VPS via SSH (as root):</p>
+               <code><i>ssh root@<span id="newserverssh">{{ server.ip }}</span></i></code>
+               <p class="mt-1">Run this command:</p>
+               <code><i>wget -O - {{ url('/') }}/sh/setup/<span id="newserverid">{{ server.server_id }}</span> | bash</i></code>
+               <p class="mt-1">Installation may take up to thirty minutes depending on your server resources</p>
+               <p>Be sure that ports 22, 80 and 443 of your VPS firewall are open</p>
+               <p>AWS disables root login by default. Use command 'sudo -s' to run as root</p>
+               <p>Cipi doesn't work with NAT VPN and OpenVZ or in localhost</p>
+               <p>Before install Cipi, please make sure your server is a clean Ubuntu 20.04 LTS VPS</p>
+            </div>
+         </div>
+   </div>
+{% endblock %}

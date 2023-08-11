@@ -24,7 +24,10 @@ class ServerTableBuilder extends TableBuilder
      *
      * @var array|string
      */
-    protected $columns = [];
+    protected $columns = [
+        'name',
+        'ip'
+    ];
 
     /**
      * The table buttons.

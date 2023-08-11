@@ -47,7 +47,9 @@ class ServerFormBuilder extends FormBuilder
      *
      * @var array
      */
-    protected $options = [];
+    protected $options = [
+        'redirect' => '/admin/server/installation/{entry.server_id}'
+    ];
 
     /**
      * The form sections.
