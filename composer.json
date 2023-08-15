@@ -12,5 +12,8 @@
         "psr-4": {
             "Visiosoft\\ServerModule\\": "src/"
         }
+    },
+    "require": {
+        "phpseclib/phpseclib": "^3.0"
     }
 }

@@ -22,10 +22,10 @@ class VisiosoftModuleServerCreateServerStream extends Migration
         'slug' => 'server',
         'title_column' => 'ip',
         'translatable' => false,
-        'versionable' => false,
+        'versionable' => true,
         'trashable' => true, // for soft delete
         'searchable' => true, // for index
-        'sortable' => false,
+        'sortable' => true,
     ];
 
     /**

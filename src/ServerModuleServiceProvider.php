@@ -44,9 +44,11 @@ class ServerModuleServiceProvider extends AddonServiceProvider
      * @type array|null
      */
     protected $routes = [
-        'admin/server'           => 'Visiosoft\ServerModule\Http\Controller\Admin\ServerController@index',
-        'admin/server/create'    => 'Visiosoft\ServerModule\Http\Controller\Admin\ServerController@create',
+        'admin/server' => 'Visiosoft\ServerModule\Http\Controller\Admin\ServerController@index',
+        'admin/server/create' => 'Visiosoft\ServerModule\Http\Controller\Admin\ServerController@create',
         'admin/server/edit/{id}' => 'Visiosoft\ServerModule\Http\Controller\Admin\ServerController@edit',
+        'sh/setup/{id}' => 'Visiosoft\ServerModule\Http\Controller\ServerController@setup',
+        'admin/server/installation/{id}' => 'Visiosoft\ServerModule\Http\Controller\Admin\ServerController@installation',
     ];
 
     /**
