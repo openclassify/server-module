@@ -10,6 +10,7 @@ class ServerFormHandler
             return;
         }
 
+        $builder->getForm()->removeField('domain');
         $builder->saveForm();
         $entry = $builder->getFormEntry();
 

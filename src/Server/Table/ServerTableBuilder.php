@@ -30,21 +30,11 @@ class ServerTableBuilder extends TableBuilder
     ];
 
     /**
-     * The table buttons.
-     *
-     * @var array|string
-     */
-    protected $buttons = [
-        'edit'
-    ];
-
-    /**
      * The table actions.
      *
      * @var array|string
      */
     protected $actions = [
-        'delete'
     ];
 
     /**
@@ -52,7 +42,9 @@ class ServerTableBuilder extends TableBuilder
      *
      * @var array
      */
-    protected $options = [];
+    protected $options = [
+        'sortable' => false,
+    ];
 
     /**
      * The table assets.
