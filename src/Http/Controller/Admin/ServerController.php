@@ -46,6 +46,11 @@ class ServerController extends AdminController
     {
         $server = $repository->newQuery()->where('server_id', $server_id)->where('status', 0)->firstOrFail();
 
-        return $this->view->make('module::installation',compact('server'));
+        return $this->view->make('module::installation', compact('server'));
+    }
+
+    public function manage($server_id)
+    {
+        return $this->view->make('module::manage',compact('server_id'));
     }
 }

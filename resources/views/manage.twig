@@ -1,0 +1,273 @@
+{% extends layout('default') %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="card">
+            <ol class="breadcrumb mb-4">
+                <li class="ml-1 breadcrumb-item active">IP:<b><span class="ml-1" id="serveriptop"></span></b></li>
+                <li class="ml-1 breadcrumb-item active">{{ trans('module::field.sites.name') }}:<b><span class="ml-1"
+                                                                                                         id="serversites"></span></b>
+                </li>
+                <li class="ml-1 breadcrumb-item active">Ping:<b><span class="ml-1" id="serverping"><i
+                                    class="fas fa-circle-notch fa-spin"></i></span></b></li>
+            </ol>
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fa fa-microchip fs-fw mr-1"></i>
+                            {{ trans('module::field.server_cpu_realtime_load.name') }}
+                        </div>
+                        <div class="card-body">
+                            <canvas id="cpuChart" width="100%" height="40"></canvas>
+                            <div class="space"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-12">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fa fa-server fs-fw mr-1"></i>
+                            {{ trans('module::field.server_ram_realtime_load.name') }}
+                        </div>
+                        <div class="card-body">
+                            <canvas id="ramChart" width="100%" height="40"></canvas>
+                            <div class="space"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-8">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fa fa-info-circle fs-fw mr-1"></i>
+                            {{ trans('module::field.server_information.name') }}
+                        </div>
+                        <div class="card-body p-2">
+                            <p>{{ trans('module::field.server_name.name') }}:</p>
+                            <div class="input-group">
+                                <input class="form-control" type="text" placeholder="e.g. Production" id="servername"
+                                       autocomplete="off"/>
+                            </div>
+                            <div class="space"></div>
+                            <p>{{ trans('module::field.server_ip.name') }}:</p>
+                            <div class="input-group">
+                                <input class="form-control" type="text" placeholder="e.g. 123.123.123.123" id="serverip"
+                                       autocomplete="off"/>
+                            </div>
+                            <div class="space"></div>
+                            <p>{{ trans('module::field.server_provider.name') }}:</p>
+                            <div class="input-group">
+                                <input class="form-control" type="text" placeholder="e.g. Digital Ocean"
+                                       id="serverprovider" autocomplete="off"/>
+                            </div>
+                            <div class="space"></div>
+                            <p>{{ trans('module::field.server_location.name') }}:</p>
+                            <div class="input-group">
+                                <input class="form-control" type="text" placeholder="e.g. Amsterdam" id="serverlocation"
+                                       autocomplete="off"/>
+                            </div>
+                            <div class="space"></div>
+                            <div class="text-center">
+                                <button class="btn btn-primary" type="button"
+                                        id="updateServer">{{ trans('module::button.update') }}</button>
+                            </div>
+                            <div class="space"></div>
+                            <div class="space"></div>
+                            <div class="space"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-8">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fa fa-power-off fs-fw mr-1"></i>
+                            {{ trans('module::field.system_services.name') }}
+                        </div>
+                        <div class="card-body p-2">
+                            <div style="display: flex; justify-content: space-between">
+                                <p>nginx</p>
+                                <div class="text-center">
+                                    <button class="btn btn-warning" type="button"
+                                            id="restartnginx">{{ trans('module::button.restart') }} <i
+                                                class="fa fa-circle-notch fa-spin fa-spinner hidden" id="loadingnginx"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between">
+                                <p>PHP-FPM</p>
+                                <div class="text-center">
+                                    <button class="btn btn-warning" type="button"
+                                            id="restartphp">{{ trans('module::button.restart') }} <i
+                                                class="fa fa-circle-notch fa-spin fa-spinner hidden" id="loadingphp"></i></button>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between">
+                                <p>MySql</p>
+                                <div class="text-center">
+                                    <button class="btn btn-warning" type="button"
+                                            id="restartmysql">{{ trans('module::button.restart') }} <i
+                                                class="fa fa-circle-notch fa-spin fa-spinner hidden" id="loadingmysql"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between">
+                                <p>Redis</p>
+                                <div class="text-center">
+                                    <button class="btn btn-warning" type="button"
+                                            id="restartredis">{{ trans('module::button.restart') }} <i
+                                                class="fa fa-circle-notch fa-spin fa-spinner hidden" id="loadingredis"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between">
+                                <p>Supervisor</p>
+                                <div class="text-center">
+                                    <button class="btn btn-warning" type="button"
+                                            id="restartsupervisor">{{ trans('module::button.restart') }} <i
+                                                class="fa fa-circle-notch fa-spin fa-spinner hidden" id="loadingsupervisor"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-8">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fa fa-cogs fs-fw mr-1"></i>
+                            {{ trans('module::field.tools.name') }}
+                        </div>
+                        <div class="card-body p-2">
+                            <p>{{ trans('module::field.php_cli_version.name') }}:</p>
+                            <div class="input-group">
+                                <select class="form-control" id="phpver">
+                                    <option value="8.1" id="php81">8.1</option>
+                                    <option value="8.0" id="php80">8.0</option>
+                                    <option value="7.4" id="php74">7.4</option>
+                                </select>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button" id="changephp"><i
+                                                class="fa fa-edit"></i></button>
+                                </div>
+                            </div>
+                            <div class="space"></div>
+                            <p>{{ trans('module::field.manage_cron_jobs.name') }}:</p>
+                            <div>
+                                <button class="btn btn-primary" type="button"
+                                        id="editcrontab">{{ trans('module::field.edit_crontab.name') }}</button>
+                            </div>
+                            <div class="space"></div>
+                            <p>{{ trans('module::field.reset_pure_password.name') }}:</p>
+                            <div>
+                                <button class="btn btn-danger" type="button"
+                                        id="rootreset">{{ trans('module::field.require_reset_pure_password.name') }}</button>
+                            </div>
+                            <div class="space"></div>
+                            <p>{{ trans('module::field.hd_memory_usage.name') }}:</p>
+                            <div>
+                                <span class="btn" id="hd"><i class="fas fa-circle-notch fa-spin"
+                                                             title="{{ trans('module::field.loading_data.name') }}"></i></span>
+                            </div>
+                            <div class="space"></div>
+                            <p>{{ trans('module::field.pure_build_version.name') }}:</p>
+                            <div>
+                                <span class="btn btn-secondary" id="serverbuild"><i
+                                            class="fas fa-circle-notch fa-spin"></i></span>
+                            </div>
+                            <div class="space"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" id="currentip">
+    <div class="modal fade" id="updateServerModal" tabindex="-1" role="dialog" aria-labelledby="updateServerModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document" id="updateserverdialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"
+                        id="updateServerModalLabel">{{ trans('module::field.update_server_modal_title.name') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ trans('module::field.update_server_modal_text.name') }}</p>
+                    <p class="hidden" id="ipnotice"><b>{{ trans('module::field.update_server_modal_ip.name') }}</b></p>
+                    <div class="text-center">
+                        <button class="btn btn-primary" type="button"
+                                id="submit">{{ trans('module::button.confirm') }} <i
+                                    class="fas fa-circle-notch fa-spin hidden" id="loading"></i></button>
+                    </div>
+                    <div class="space"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="crontabModal" tabindex="-1" role="dialog" aria-labelledby="crontabModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="crontabModalLabel">{{ trans('module::field.server_crontab.name') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ trans('module::field.server_crontab_edit.name') }}:</p>
+                    <div id="crontab" style="height:250px;width:100%;"></div>
+                    <div class="space"></div>
+                    <div class="text-center">
+                        <button class="btn btn-primary" type="button"
+                                id="crontabsubmit">{{ trans('module::button.save') }} <i
+                                    class="fas fa-circle-notch fa-spin hidden" id="crontableloading"></i></button>
+                    </div>
+                    <div class="space"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="rootresetModal" tabindex="-1" role="dialog" aria-labelledby="rootresetModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"
+                        id="rootresetModalLabel">{{ trans('module::field.require_password_reset_modal_title.name') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>{{ trans('module::field.require_password_reset_modal_text.name') }}</p>
+                    <div class="space"></div>
+                    <div class="text-center">
+                        <button class="btn btn-danger" type="button"
+                                id="rootresetsubmit">{{ trans('module::button.confirm') }} <i
+                                    class="fas fa-circle-notch fa-spin hidden" id="rootresetloading"></i></button>
+                    </div>
+                    <div class="space"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let server_id = "{{ server_id }}";
+        let trans_server = {
+            unknown: "{{ trans('module::field.unknown.name') }}",
+            loading_data: "{{ trans('module::field.loading_data.name') }}",
+            loading_please_wait: "{{ trans('module::field.loading_please_wait.name') }}",
+            new_password_success: "{{ trans('module::field.new_password_success.name') }}"
+        }
+    </script>
+    {{ asset_script(asset_download('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js', 60*60*24)) }}
+    {{ asset_script('module::js/ace.js') }}
+    {{ asset_script('module::js/server.js') }}
+{% endblock %}

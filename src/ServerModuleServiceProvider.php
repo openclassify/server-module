@@ -1,6 +1,8 @@
 <?php namespace Visiosoft\ServerModule;
 
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
+use Visiosoft\ServerModule\Console\ServerSetupCheck;
+use Visiosoft\ServerModule\Http\Controller\ServerController;
 use Visiosoft\ServerModule\Server\Contract\ServerRepositoryInterface;
 use Visiosoft\ServerModule\Server\ServerRepository;
 use Anomaly\Streams\Platform\Model\Server\ServerServerEntryModel;
@@ -22,21 +24,20 @@ class ServerModuleServiceProvider extends AddonServiceProvider
      *
      * @type array|null
      */
-    protected $commands = [];
+    protected $commands = [
+        ServerSetupCheck::class,
+    ];
 
     /**
      * The addon's scheduled commands.
      *
      * @type array|null
      */
-    protected $schedules = [];
-
-    /**
-     * The addon API routes.
-     *
-     * @type array|null
-     */
-    protected $api = [];
+    protected $schedules = [
+        '* * * * *' => [
+            'servers:setupcheck'
+        ]
+    ];
 
     /**
      * The addon routes.
@@ -49,6 +50,7 @@ class ServerModuleServiceProvider extends AddonServiceProvider
         'admin/server/edit/{id}' => 'Visiosoft\ServerModule\Http\Controller\Admin\ServerController@edit',
         'sh/setup/{id}' => 'Visiosoft\ServerModule\Http\Controller\ServerController@setup',
         'admin/server/installation/{id}' => 'Visiosoft\ServerModule\Http\Controller\Admin\ServerController@installation',
+        'admin/server/manage/{server_id}' => 'Visiosoft\ServerModule\Http\Controller\Admin\ServerController@manage',
     ];
 
     /**
@@ -170,8 +172,28 @@ class ServerModuleServiceProvider extends AddonServiceProvider
      */
     public function map(Router $router)
     {
-        // Register dynamic routes here for example.
-        // Use method injection or commands to bring in services.
+        $this->mapRouters($router);
+    }
+
+    public function mapRouters(Router $router)
+    {
+        $router->group(['prefix' => 'api/servers'], function () use ($router) {
+            $router->get('/', [ServerController::class, 'index']);
+            $router->post('/', [ServerController::class, 'create']);
+            $router->get('/panel', [ServerController::class, 'panel']);
+            $router->patch('/panel/domain', [ServerController::class, 'paneldomain']);
+            $router->post('/panel/ssl', [ServerController::class, 'panelssl']);
+            $router->delete('/{server_id}', [ServerController::class, 'destroy']);
+            $router->get('/{server_id}', [ServerController::class, 'show']);
+            $router->patch('/{server_id}', [ServerController::class, 'edit']);
+            $router->get('/{server_id}/ping', [ServerController::class, 'ping']);
+            $router->get('/{server_id}/healthy', [ServerController::class, 'healthy']);
+            $router->post('/{server_id}/rootreset', [ServerController::class, 'rootreset']);
+            $router->post('/{server_id}/servicerestart/{service}', [ServerController::class, 'servicerestart']);
+            $router->get('/{server_id}/sites', [ServerController::class, 'sites']);
+            $router->get('/{server_id}/domains', [ServerController::class, 'domains']);
+        });
+
     }
 
 }
