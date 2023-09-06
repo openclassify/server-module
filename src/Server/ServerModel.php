@@ -28,4 +28,19 @@ class ServerModel extends ServerServerEntryModel implements ServerInterface
     {
         return $this->hasMany(SiteModel::class);
     }
+  
+    public function getIp()
+    {
+        return $this->ip;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function getDatabasePassword()
+    {
+        return $this->database;
+    }
 }
