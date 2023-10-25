@@ -2,6 +2,7 @@
 
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
 use Visiosoft\ServerModule\Console\ServerSetupCheck;
+use Visiosoft\ServerModule\Console\UpdateServerCredentials;
 use Visiosoft\ServerModule\Http\Controller\ServerController;
 use Visiosoft\ServerModule\Server\Contract\ServerRepositoryInterface;
 use Visiosoft\ServerModule\Server\ServerRepository;
@@ -26,6 +27,7 @@ class ServerModuleServiceProvider extends AddonServiceProvider
      */
     protected $commands = [
         ServerSetupCheck::class,
+        UpdateServerCredentials::class,
     ];
 
     /**
