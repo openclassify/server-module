@@ -12,7 +12,7 @@ class UpdateServerCredentials extends Command
      *
      * @var string
      */
-    protected $signature = 'servers:update_server_credentials {server} {sshpass} {dbpass}';
+    protected $signature = 'servers:update_server_credentials {server} {ip} {sshpass} {dbpass}';
 
     /**
      * The console command description.
@@ -25,8 +25,13 @@ class UpdateServerCredentials extends Command
     public function handle()
     {
         $server = ServerModel::query()->where('server_id', $this->argument('server'))->first();
-        if ($server){
-            $server->update(['password' => $this->argument('sshpass'), 'database' => $this->argument('dbpass')]);
+        if ($server) {
+            $server->update(
+                [
+                    'ip' => $this->argument('ip'),
+                    'password' => $this->argument('sshpass'),
+                    'database' => $this->argument('dbpass')
+                ]);
         }
     }
 }
