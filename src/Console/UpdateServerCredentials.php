@@ -24,8 +24,13 @@ class UpdateServerCredentials extends Command
 
     public function handle()
     {
-        $server = ServerModel::query()->where('server_id', $this->argument('server'))->first();
-        if ($server) {
+        $server = ServerModel::query();
+
+        if (strlen($this->argument('server')) != 0) {
+            $server->where('server_id', $this->argument('server'));
+        }
+
+        if ($server->first()) {
             $server->update(
                 [
                     'ip' => $this->argument('ip'),
