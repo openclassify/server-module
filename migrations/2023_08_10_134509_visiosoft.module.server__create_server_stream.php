@@ -24,7 +24,7 @@ class VisiosoftModuleServerCreateServerStream extends Migration
         'translatable' => false,
         'versionable' => true,
         'trashable' => true, // for soft delete
-        'searchable' => true, // for index
+        'searchable' => false, // for index
         'sortable' => true,
     ];
 
