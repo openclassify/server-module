@@ -43,4 +43,9 @@ class ServerModel extends ServerServerEntryModel implements ServerInterface
     {
         return $this->database;
     }
+
+    public function getPort(): int
+    {
+        return 22;
+    }
 }
