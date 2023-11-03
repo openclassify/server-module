@@ -43,4 +43,24 @@ class ServerModel extends ServerServerEntryModel implements ServerInterface
     {
         return $this->database;
     }
+
+    public function getPort(): int
+    {
+        return 22;
+    }
+
+    public function getUsername(): string
+    {
+        return 'pure';
+    }
+
+    public function getRsaPath($type = "private"): string
+    {
+        $path = '~/.ssh/id_rsa';
+        if ($type == "public") {
+            $path .= ".pub";
+        }
+
+        return $path;
+    }
 }
