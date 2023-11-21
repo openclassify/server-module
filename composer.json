@@ -1,11 +1,11 @@
 {
-    "name": "visiosoft/server-module",
+    "name": "purepanel/server-module",
     "type": "streams-addon",
     "authors": [
         {
-            "name": "Vedat Akdoğan",
-            "email": "vedat@visiosoft.com.tr",
-            "role": "Developer"
+            "name": "Vedat Akdogan",
+            "email": "vedatakdogan@live.com",
+            "role": "Owner"
         }
     ],
     "autoload": {
