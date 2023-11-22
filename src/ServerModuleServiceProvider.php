@@ -3,7 +3,7 @@
 use Anomaly\Streams\Platform\Addon\AddonServiceProvider;
 use Visiosoft\ServerModule\Console\ServerSetupCheck;
 use Visiosoft\ServerModule\Console\UpdateServerCredentials;
-use Visiosoft\ServerModule\Http\Controller\ServerController;
+use Visiosoft\ServerModule\Http\Controller\ApiController;
 use Visiosoft\ServerModule\Server\Contract\ServerRepositoryInterface;
 use Visiosoft\ServerModule\Server\ServerRepository;
 use Anomaly\Streams\Platform\Model\Server\ServerServerEntryModel;
@@ -179,23 +179,23 @@ class ServerModuleServiceProvider extends AddonServiceProvider
 
     public function mapRouters(Router $router)
     {
-        $router->group(['prefix' => 'api/servers'], function () use ($router) {
-            $router->get('/', [ServerController::class, 'index']);
-            $router->post('/', [ServerController::class, 'create']);
-            $router->get('/panel', [ServerController::class, 'panel']);
-            $router->patch('/panel/domain', [ServerController::class, 'paneldomain']);
-            $router->post('/panel/ssl', [ServerController::class, 'panelssl']);
-            $router->delete('/{server_id}', [ServerController::class, 'destroy']);
-            $router->get('/{server_id}', [ServerController::class, 'show']);
-            $router->patch('/{server_id}', [ServerController::class, 'edit']);
-            $router->get('/{server_id}/ping', [ServerController::class, 'ping']);
-            $router->get('/{server_id}/healthy', [ServerController::class, 'healthy']);
-            $router->post('/{server_id}/rootreset', [ServerController::class, 'rootreset']);
-            $router->post('/{server_id}/servicerestart/{service}', [ServerController::class, 'servicerestart']);
-            $router->get('/{server_id}/sites', [ServerController::class, 'sites']);
-            $router->get('/{server_id}/domains', [ServerController::class, 'domains']);
+        //Todo: Update Api for Server Manage Screen
+
+        $router->group(['prefix' => 'api/servers', 'middleware' => ['apikey']], function () use ($router) {
+            $router->get('/', [ApiController::class, 'index']);
+//            $router->post('/', [ApiController::class, 'create']);
+//            $router->get('/panel', [ApiController::class, 'panel']);
+//            $router->patch('/panel/domain', [ApiController::class, 'paneldomain']);
+//            $router->post('/panel/ssl', [ApiController::class, 'panelssl']);
+//            $router->delete('/{server_id}', [ApiController::class, 'destroy']);
+//            $router->get('/{server_id}', [ApiController::class, 'show']);
+//            $router->patch('/{server_id}', [ApiController::class, 'edit']);
+//            $router->get('/{server_id}/ping', [ApiController::class, 'ping']);
+//            $router->get('/{server_id}/healthy', [ApiController::class, 'healthy']);
+//            $router->post('/{server_id}/rootreset', [ApiController::class, 'rootreset']);
+//            $router->post('/{server_id}/servicerestart/{service}', [ApiController::class, 'servicerestart']);
+//            $router->get('/{server_id}/sites', [ApiController::class, 'sites']);
+//            $router->get('/{server_id}/domains', [ApiController::class, 'domains']);
         });
-
     }
-
 }

@@ -1,6 +1,6 @@
 <?php namespace Visiosoft\ServerModule\Http\Controller;
 
-use Anomaly\Streams\Platform\Http\Controller\PublicController;
+use Anomaly\Streams\Platform\Http\Controller\ResourceController;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Visiosoft\ServerModule\Jobs\CronSSH;
@@ -17,28 +17,48 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\URL;
 use Visiosoft\SiteModule\Site\SiteModel;
 
-class ServerController extends PublicController
+class ApiController extends ResourceController
 {
+    protected $servers;
+
+    public function __construct(ServerRepositoryInterface $servers)
+    {
+        $this->servers = $servers;
+        parent::__construct();
+    }
+
     public function index()
     {
-        $servers = ServerModel::all();
-        $response = [];
+        try {
+            $servers = $this->servers->all();
 
-        foreach ($servers as $server) {
-            $data = [
-                'server_id' => $server->server_id,
-                'name' => $server->name,
-                'ip' => $server->ip,
-                'provider' => $server->provider,
-                'location' => $server->location,
-                'default' => $server->default,
-                'status' => $server->status,
-                'sites' => count($server->sites)
+            $response = [
+                'success' => true,
+                'data' => []
             ];
-            array_push($response, $data);
-        }
 
-        return response()->json($response);
+            foreach ($servers as $server) {
+                $data = [
+                    'server_id' => $server->server_id,
+                    'name' => $server->name,
+                    'ip' => $server->ip,
+                    'provider' => $server->provider,
+                    'location' => $server->location,
+                    'default' => $server->default,
+                    'status' => $server->status,
+                    'sites' => count($server->sites)
+                ];
+                array_push($response['data'], $data);
+            }
+
+            return response()->json($response);
+        } catch (\Exception $exception) {
+            return $this->response->json([
+                'success' => false,
+                'message' => trans('streams::error.500.name'),
+                'errors' => [trans('streams::error.500.name')]
+            ], 500);
+        }
     }
 
     public function create()
