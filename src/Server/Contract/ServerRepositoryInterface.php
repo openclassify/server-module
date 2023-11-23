@@ -4,5 +4,5 @@ use Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface;
 
 interface ServerRepositoryInterface extends EntryRepositoryInterface
 {
-
+    public function getDefaultServer();
 }

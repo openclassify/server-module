@@ -22,4 +22,11 @@ class ServerRepository extends EntryRepository implements ServerRepositoryInterf
     {
         $this->model = $model;
     }
+
+    public function getDefaultServer()
+    {
+        return $this->newQuery()
+            ->where('default', true)
+            ->first();
+    }
 }

@@ -15,6 +15,7 @@ class ServerModuleSeeder extends Seeder
                 'ip' => '127.0.0.1',
                 'server_id' => Str::uuid(),
                 'name' => 'This Vps',
+                'default' => true,
             ];
             $serverRepository->create($params);
         }
