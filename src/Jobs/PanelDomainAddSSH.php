@@ -37,7 +37,7 @@ class PanelDomainAddSSH implements ShouldQueue
         $ssh->exec('echo '.$this->server->password.' | sudo -S sudo wget '.config('app.url').'/conf/panel -O /etc/nginx/sites-available/panel.conf');
         $ssh->exec('echo '.$this->server->password.' | sudo -S sudo dos2unix /etc/nginx/sites-available/panel.conf');
         $ssh->exec('echo '.$this->server->password.' | sudo -S sudo ln -s /etc/nginx/sites-available/panel.conf /etc/nginx/sites-enabled/panel.conf');
-        $ssh->exec('echo '.$this->server->password.' | sudo -S sudo systemctl restart nginx.service');
+        $ssh->exec('echo '.$this->server->password.' | sudo -S sudo systemctl reload nginx.service');
         $ssh->exec('exit');
     }
 }

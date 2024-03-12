@@ -37,7 +37,7 @@ class PanelDomainRemoveSSH implements ShouldQueue
         $ssh->setTimeout(360);
         $ssh->exec('echo '.$this->server->password.' | sudo -S sudo unlink /etc/nginx/sites-enabled/panel.conf');
         $ssh->exec('echo '.$this->server->password.' | sudo -S sudo unlink /etc/nginx/sites-available/panel.conf');
-        $ssh->exec('echo '.$this->server->password.' | sudo -S sudo systemctl restart nginx.service');
+        $ssh->exec('echo '.$this->server->password.' | sudo -S sudo systemctl reload nginx.service');
         $ssh->exec('exit');
     }
 }
