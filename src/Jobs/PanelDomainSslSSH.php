@@ -38,9 +38,9 @@ class PanelDomainSslSSH implements ShouldQueue
         $ssh->login('pure', $this->server->password);
         $ssh->setTimeout(360);
         $ssh->exec('echo '.$this->server->password.' | sudo -S sudo certbot --nginx -d '.$this->site->domain.' --non-interactive --agree-tos --register-unsafely-without-email');
-        $ssh->exec('echo '.$this->server->password.' | sudo -S sudo systemctl restart nginx.service');
+        $ssh->exec('echo '.$this->server->password.' | sudo -S sudo systemctl reload nginx.service');
         $ssh->exec("echo ".$this->server->password." | sudo -S sed -i 's/443 ssl/443 ssl http2/g' /etc/nginx/sites-enabled/panel.conf");
-        $ssh->exec('echo '.$this->server->password.' | sudo -S sudo systemctl restart nginx.service');
+        $ssh->exec('echo '.$this->server->password.' | sudo -S sudo systemctl reload nginx.service');
         $ssh->exec('exit');
     }
 }
