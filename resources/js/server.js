@@ -152,6 +152,20 @@ $('#restartnginx').click(function () {
     });
 });
 
+// Update Composer
+$('#updatecomposer').click(function () {
+    $.ajax({
+        url: '/api/servers/' + server_id + '/servicerestart/composer',
+        type: 'POST',
+        beforeSend: function () {
+            $('#loadingcomposer').removeClass('hidden');
+        },
+        success: function (data) {
+            $('#loadingcomposer').addClass('hidden');
+        },
+    });
+});
+
 // Restart php
 $('#restartphp').click(function () {
     $.ajax({
