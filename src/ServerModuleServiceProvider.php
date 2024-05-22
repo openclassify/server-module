@@ -183,19 +183,19 @@ class ServerModuleServiceProvider extends AddonServiceProvider
 
         $router->group(['prefix' => 'api/servers', 'middleware' => ['apikey']], function () use ($router) {
             $router->get('/', [ApiController::class, 'index']);
-//            $router->post('/', [ApiController::class, 'create']);
-//            $router->get('/panel', [ApiController::class, 'panel']);
-//            $router->patch('/panel/domain', [ApiController::class, 'paneldomain']);
-//            $router->post('/panel/ssl', [ApiController::class, 'panelssl']);
-//            $router->delete('/{server_id}', [ApiController::class, 'destroy']);
-//            $router->get('/{server_id}', [ApiController::class, 'show']);
-//            $router->patch('/{server_id}', [ApiController::class, 'edit']);
-//            $router->get('/{server_id}/ping', [ApiController::class, 'ping']);
-//            $router->get('/{server_id}/healthy', [ApiController::class, 'healthy']);
-//            $router->post('/{server_id}/rootreset', [ApiController::class, 'rootreset']);
-//            $router->post('/{server_id}/servicerestart/{service}', [ApiController::class, 'servicerestart']);
-//            $router->get('/{server_id}/sites', [ApiController::class, 'sites']);
-//            $router->get('/{server_id}/domains', [ApiController::class, 'domains']);
+            $router->post('/', [ApiController::class, 'create']);
+            $router->get('/panel', [ApiController::class, 'panel']);
+            $router->patch('/panel/domain', [ApiController::class, 'paneldomain']);
+            $router->post('/panel/ssl', [ApiController::class, 'panelssl']);
+            $router->delete('/{server_id}', [ApiController::class, 'destroy']);
+            $router->get('/{server_id}', [ApiController::class, 'show']);
+            $router->patch('/{server_id}', [ApiController::class, 'edit']);
+            $router->get('/{server_id}/ping', [ApiController::class, 'ping']);
+            $router->get('/{server_id}/healthy', [ApiController::class, 'healthy']);
+            $router->post('/{server_id}/rootreset', [ApiController::class, 'rootreset']);
+            $router->post('/{server_id}/servicerestart/{service}', [ApiController::class, 'servicerestart']);
+            $router->get('/{server_id}/sites', [ApiController::class, 'sites']);
+            $router->get('/{server_id}/domains', [ApiController::class, 'domains']);
         });
     }
 }
