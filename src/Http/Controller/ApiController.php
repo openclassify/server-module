@@ -497,6 +497,9 @@ class ApiController extends ResourceController
                 case 'nginx':
                     $ssh->exec('sudo systemctl restart nginx.service');
                     break;
+                case 'composer':
+                    $ssh->exec('echo ' . $server->password . ' | sudo -S sudo sh /var/www/updater.sh');
+                    break;
                 case 'php':
                     $ssh->exec('sudo service php8.1-fpm restart');
                     $ssh->exec('sudo service php8.0-fpm restart');

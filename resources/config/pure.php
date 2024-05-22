@@ -20,6 +20,6 @@ return [
     // Global Settings
     'users_prefix'      => env('PURE_USERS_PREFIX', 'cp'),
     'phpvers'           => ['8.1','8.0','7.4'],
-    'services'          => ['nginx','php','mysql','redis','supervisor'],
+    'services'          => ['nginx','php','mysql','redis','supervisor','composer'],
     'default_php'       => '8.0',
 ];
