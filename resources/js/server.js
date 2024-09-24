@@ -73,6 +73,12 @@ function serverInit() {
                 $('#serverbuild').html(trans_server.unknown);
             }
             switch (data.php) {
+                case '8.3':
+                    $('#php83').attr("selected", "selected");
+                    break;
+                case '8.2':
+                    $('#php82').attr("selected", "selected");
+                    break;
                 case '8.1':
                     $('#php81').attr("selected", "selected");
                     break;
